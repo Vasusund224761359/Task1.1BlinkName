@@ -1,41 +1,80 @@
-#include <Servo.h> 
 
-Servo myservo; 
-#define servoPin 9 
+const int ledPin = 13;  
+
+const int dotDuration = 200;  
+const int dashDuration = 600; 
+const int gapDuration = 200;  
+const int letterGap = 600;    
+// array of 26 characters storing the morse code of each of the letters.
+const String morseCode[26] = {
+  ".-",   // A
+  "-...", // B
+  "-.-.", // C
+  "-..",  // D
+  ".",    // E
+  "..-.", // F
+  "--.",  // G
+  "....", // H
+  "..",   // I
+  ".---", // J
+  "-.-",  // K
+  ".-..", // L
+  "--",   // M
+  "-.",   // N
+  "---",  // O
+  ".--.", // P
+  "--.-", // Q
+  ".-.",  // R
+  "...",  // S
+  "-",    // T
+  "..-",  // U
+  "...-", // V
+  ".--",  // W
+  "-..-", // X
+  "-.--", // Y
+  "--.."  // Z
+};
 
 void setup() {
-  myservo.attach(servoPin); 
+  pinMode(ledPin, OUTPUT);
 }
 
 void loop() {
-  
-  myservo.write(45); 
-  delay(1000); 
+  String word = "VASU";  
+  transmitMorse(word);   
+  delay(letterGap * 2);  
+}
 
-  myservo.write(90); 
-  delay(1000); 
-
-  myservo.write(135); 
-  delay(1000); 
-
-  myservo.write(180); 
-  delay(1000); 
-
-  myservo.write(0); 
-  delay(1000); 
-
-  
-  for (int angle = 0; angle <= 180; angle++) {
-    myservo.write(angle); 
-    delay(15); 
+// Function to transmit a word in Morse code
+void transmitMorse(String word) {
+  for (int i = 0; i < word.length(); i++) {
+      String code = morseCode[letter - 'A'];  
+      transmitLetter(code);                   
+      delay(letterGap);                      
   }
+}
 
-  for (int angle = 180; angle >= 0; angle--) {
-    myservo.write(angle); 
-    delay(15); 
+void transmitLetter(String code) {
+  for (int i = 0; i < code.length(); i++) {
+    if (code[i] == '.') {
+      dot();  
+    } else if (code[i] == '-') {
+      dash(); 
+    }
+    delay(gapDuration);  
   }
-
-  delay(1000); 
 }
 
 
+void dot() {
+  digitalWrite(ledPin, HIGH);
+  delay(dotDuration);
+  digitalWrite(ledPin, LOW);
+}
+
+
+void dash() {
+  digitalWrite(ledPin, HIGH);
+  delay(dashDuration);
+  digitalWrite(ledPin, LOW);
+}
