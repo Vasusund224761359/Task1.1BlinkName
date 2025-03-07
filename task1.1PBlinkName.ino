@@ -7,7 +7,7 @@ const int gapDuration = 200;
 const int letterGap = 600;    
 // array of 26 characters storing the morse code of each of the letters.
 const String morseCode[26] = {
-  ".-",   // A
+  ".-",   // Morse code for A alphabet
   "-...", // B
   "-.-.", // C
   "-..",  // D
@@ -40,17 +40,19 @@ void setup() {
 }
 
 void loop() {
-  String word = "VASU";  
-  transmitMorse(word);   
+  String name = "VASU";  
+  transmitMorse(name);   
   delay(letterGap * 2);  
 }
 
-// Function to transmit a word in Morse code
-void transmitMorse(String word) {
-  for (int i = 0; i < word.length(); i++) {
-      String code = morseCode[letter - 'A'];  
+
+void transmitMorse(String name) {
+  for (int i = 0; i < name.length(); i++) {
+    if(name[i]>= 'A' && name[i]<= 'Z'){
+      String code = morseCode[name[i] - 'A'];  
       transmitLetter(code);                   
-      delay(letterGap);                      
+      delay(letterGap);  
+    }                    
   }
 }
 
